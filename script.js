@@ -116,10 +116,10 @@ function spinWheel() {
 
 // ---- DETERMINE CATEGORY + QUESTION ----
 function showCategoryQuestion() {
-  // The pointer is at top center (270 degrees or 3π/2 radians)
-  // Adjust for the pointer position at the top
-  const pointerAngle = (2 * Math.PI - rotation + Math.PI / 2) % (2 * Math.PI);
-  const index = Math.floor(pointerAngle / arcSize) % numSegments;
+  // The pointer is at top center (0 radians)
+  // Wheel rotation moves segments clockwise, so we invert it
+  const pointerAngle = (2 * Math.PI - rotation + arcSize / 2) % (2 * Math.PI);
+  const index = Math.floor(pointerAngle / arcSize);
   const category = segments[index];
 
   const questionList = categories[category];
