@@ -117,16 +117,27 @@ function spinWheel() {
 
 // ---- DETERMINE CATEGORY + SHOW QUESTION ----
 function showCategoryQuestion() {
-  // Normalize rotation
-  const normalizedRotation = rotation % (2 * Math.PI);
+  // Determine which segment sits under the top pointer (pointer at -PI/2)
+  // Calculate the pointer angle adjusted for the wheel rotation, then map to a segment index
+  const TWO_PI = 2 * Math.PI;
+  // pointerAngle is the absolute angle (in radians) that corresponds to the pointer location
+  const pointerAngle = -Math.PI / 2; // top of the circle
 
-  // Calculate which segment is at the top pointer
-  const index = Math.floor((numSegments - (normalizedRotation / arcSize)) % numSegments);
+  // For each segment i, its center angle (before rotation) is: i*arcSize + arcSize/2
+  // After rotating the wheel by `rotation`, the segment center angle becomes: center + rotation
+  // We want center + rotation === pointerAngle (mod 2PI) => center === pointerAngle - rotation (mod 2PI)
+  let adjusted = pointerAngle - rotation;
+  // Normalize to [0, 2PI)
+  adjusted = ((adjusted % TWO_PI) + TWO_PI) % TWO_PI;
+
+  const index = Math.floor(adjusted / arcSize) % numSegments;
   const category = segments[index];
 
-  // Pick random question from the category
-  const questionList = categories[category];
-  const randomQuestion = questionList[Math.floor(Math.random() * questionList.length)];
+  // Pick a random question from the resolved category
+  const questionList = categories[category] || [];
+  const randomQuestion = questionList.length
+    ? questionList[Math.floor(Math.random() * questionList.length)]
+    : "No questions available for this category.";
 
   questionText.textContent = `[${category}] ${randomQuestion}`;
   questionModal.style.display = "flex";
