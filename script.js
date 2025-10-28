@@ -118,4 +118,19 @@ function spinWheel() {
 function showCategoryQuestion() {
   // The pointer is at top center (0 radians)
   // Wheel rotation moves segments clockwise, so we invert it
-  const point
+  const pointerAngle = (2 * Math.PI - rotation + arcSize / 2) % (2 * Math.PI);
+  const index = Math.floor(pointerAngle / arcSize);
+  const category = segments[index];
+
+  const questionList = categories[category];
+  const randomQuestion = questionList[Math.floor(Math.random() * questionList.length)];
+
+  questionText.textContent = `[${category}] ${randomQuestion}`;
+  questionModal.style.display = "flex";
+}
+
+// ---- EVENT LISTENERS ----
+spinBtn.addEventListener("click", spinWheel);
+closeModal.addEventListener("click", () => {
+  questionModal.style.display = "none";
+});
