@@ -1,16 +1,25 @@
 body {
-  font-family: 'system-ui', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif,;
+  font-family: 'system-ui', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background: linear-gradient(135deg, #090909, #000000);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
+  padding: 20px 0;
+  box-sizing: border-box;
 }
 
 .container {
   text-align: center;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 h1 {
@@ -20,17 +29,21 @@ h1 {
 
 .wheel-container {
   position: relative;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 20px auto;
 }
 
 /* Make the canvas responsive while preserving a square aspect ratio visually */
 #wheel {
   width: 400px;
   height: 400px;
-  max-width: 90vw;
-  max-height: 90vw;
+  max-width: 90vmin;
+  max-height: 90vmin;
   display: block;
-  align-self: flex-end;
+  margin: 0 auto;
 }
 
 .pointer {
@@ -43,7 +56,7 @@ h1 {
 }
 
 #spinBtn {
-  margin-top: 150px;
+  margin-top: 30px;
   padding: 12px 24px;
   border: none;
   background-color: #fff;
@@ -52,6 +65,9 @@ h1 {
   border-radius: 10px;
   cursor: pointer;
   transition: 0.3s;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #spinBtn:hover {
@@ -100,11 +116,10 @@ h1 {
 @media (max-width: 480px) {
   body {
     padding: 20px 12px;
-    align-items: flex-start;
   }
 
   .container {
-    padding-top: 18px;
+    padding: 0 10px;
   }
 
   h1 {
@@ -114,8 +129,8 @@ h1 {
   #wheel {
     width: 320px;
     height: 320px;
-    max-width: 86vw;
-    max-height: 86vw;
+    max-width: 85vmin;
+    max-height: 85vmin;
   }
 
   .pointer {
