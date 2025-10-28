@@ -30,7 +30,7 @@ h1 {
   max-width: 90vw;
   max-height: 90vw;
   display: block;
-  align-self: center;
+  align-self: local;
 }
 
 .pointer {
@@ -43,7 +43,7 @@ h1 {
 }
 
 #spinBtn {
-  margin-top: 200px;
+  margin-top: 150px;
   padding: 12px 24px;
   border: none;
   background-color: #fff;
