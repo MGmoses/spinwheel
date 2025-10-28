@@ -1,0 +1,87 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+.wheel-container {
+  position: relative;
+  display: inline-block;
+}
+
+.pointer {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+  color: #fff;
+}
+
+#spinBtn {
+  margin-top: 25px;
+  padding: 12px 24px;
+  border: none;
+  background-color: #fff;
+  color: #007aff;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#spinBtn:hover {
+  background-color: #007aff;
+  color: #fff;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  color: #333;
+  border-radius: 12px;
+  padding: 25px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.modal-content h2 {
+  margin-bottom: 15px;
+}
+
+#closeModal {
+  margin-top: 20px;
+  background-color: #007aff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
