@@ -30,6 +30,7 @@ h1 {
   max-width: 90vw;
   max-height: 90vw;
   display: block;
+  align-self: center;
 }
 
 .pointer {
