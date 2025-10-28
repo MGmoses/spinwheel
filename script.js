@@ -174,7 +174,7 @@ function showCategoryQuestion() {
     ? questionList[Math.floor(Math.random() * questionList.length)]
     : "No questions available for this category.";
 
-  questionText.textContent = `[${category}] ${randomQuestion}`;
+  questionText.textContent = `${randomQuestion}`;
   questionModal.style.display = "flex";
 }
 
