@@ -5,80 +5,89 @@ const questionModal = document.getElementById("questionModal");
 const questionText = document.getElementById("questionText");
 const closeModal = document.getElementById("closeModal");
 
-const questions = [
-  "What does MINDCo stand for?",
-  "When was MINDCo officially rebranded from Tradenet?",
-  "If you could time travel, where would you go?",
-  "What is MINDCo’s main mission?",
-  "Name one of MINDCo’s flagship digital platforms",
-  "How many scholarships is MINDCo, Future Institute offering at VARA Expo?",
-  "What does MINDCo aim to achieve through digitalisation?",
-  "What is oneGov?",
-  "What is the main goal of the oneGov platform?",
-  "How does oneGov help citizens save time?",
-  "Name 3 government agencies currently available through oneGov",
-  "What is the citizen support center for oneGov called?",
-  "Describe your perfect day.",
-  "What’s your favorite place in the world?",
-  "What’s your proudest achievement?",
-  "What’s a fun fact about you?",
-  "What’s your favorite childhood memory?",
-  "What’s a mistake you learned the most from?",
-  "What motivates you to get out of bed each day?",
-  "What is the Support Call center number for oneGov?",
-  "What is Tradian?",
-  "WWhich sector does Tradian primarily serve?",
-  "What does “Single Window” mean in trade?",
-  "How does Tradian help importers and exporters?",
-  "What year was Tradian officially launched?",
-  "What major benefit does Tradian offer traders?",
-  "What is the vision of the Maldives National Single Window?",
-  "How does Tradian contribute to ease of doing business?",
-  "Name one stakeholder agency integrated into Tradian?",
-  "Who operates Tradian?",
-  "What does “QR” in QR Code stand for?",
-  "How many islands are there in the Maldives?",
-  "What is the most used social media platform in the Maldives?",
-  "What does AI stand for?",
-  "Which country invented the internet?",
-  "What year did the Maldives gain independence?",
-  "What’s one benefit of using digital services instead of paper forms?",
-  "What color is the MINDCo logo?",
-  "Name one word that comes to mind when you think of “Digital Maldives.”",
-  "Who operates eFaas?"
-];
+// ---- CATEGORY QUESTION BANK ----
+const categories = {
+  MINDCo: [
+    "What does MINDCo stand for?",
+    "When was MINDCo officially rebranded from Tradenet?",
+    "What is MINDCo’s main mission?",
+    "What is the national vision MINDCo is working toward by 2027?",
+    "Name one of MINDCo’s flagship digital platforms.",
+    "How many scholarships is MINDCo, Future Institute offering at VARA Expo?",
+    "What does MINDCo aim to achieve through digitalisation?"
+  ],
+  oneGov: [
+    "What is oneGov?",
+    "What is the main goal of the oneGov platform?",
+    "How does oneGov help citizens save time?",
+    "Name 3 government agencies currently available through oneGov.",
+    "What is the citizen support center for oneGov called?",
+    "What is the Support Call center number for oneGov?"
+  ],
+  Tradian: [
+    "What is Tradian?",
+    "Which sector does Tradian primarily serve?",
+    "What does “Single Window” mean in trade?",
+    "How does Tradian help importers and exporters?",
+    "What year was Tradian officially launched?",
+    "What major benefit does Tradian offer traders?",
+    "What is the vision of the Maldives National Single Window?",
+    "How does Tradian contribute to ease of doing business?",
+    "Name one stakeholder agency integrated into Tradian?",
+    "Who operates Tradian?"
+  ],
+  Wildcard: [
+    "What does “QR” in QR Code stand for?",
+    "How many islands are there in the Maldives?",
+    "What is the most used social media platform in the Maldives?",
+    "What does AI stand for?",
+    "Which country invented the internet?",
+    "What year did the Maldives gain independence?",
+    "What’s one benefit of using digital services instead of paper forms?",
+    "What color is the MINDCo logo?",
+    "Name one word that comes to mind when you think of “digital Maldives.”",
+    "Who operates eFaas?"
+  ]
+};
 
-const numSegments = 12;
+// ---- WHEEL CONFIG ----
+const segments = Object.keys(categories);
+const numSegments = segments.length;
 const arcSize = (2 * Math.PI) / numSegments;
 let rotation = 0;
 let isSpinning = false;
 
+// ---- DRAW WHEEL ----
 function drawWheel() {
+  const colors = ["#FF7F50", "#FFD166", "#06D6A0", "#118AB2"];
+  ctx.clearRect(0, 0, 400, 400);
   for (let i = 0; i < numSegments; i++) {
     const angle = i * arcSize;
     ctx.beginPath();
     ctx.moveTo(200, 200);
     ctx.arc(200, 200, 200, angle, angle + arcSize);
-    ctx.fillStyle = i % 2 === 0 ? "#ffcb3b" : "#ff7f50";
+    ctx.fillStyle = colors[i % colors.length];
     ctx.fill();
     ctx.save();
     ctx.translate(200, 200);
     ctx.rotate(angle + arcSize / 2);
     ctx.textAlign = "right";
     ctx.fillStyle = "#fff";
-    ctx.font = "bold 14px Poppins";
-    ctx.fillText(`${i + 1}`, 180, 5);
+    ctx.font = "bold 20px Poppins";
+    ctx.fillText(segments[i], 170, 10);
     ctx.restore();
   }
 }
 
 drawWheel();
 
+// ---- SPIN ANIMATION ----
 function spinWheel() {
   if (isSpinning) return;
   isSpinning = true;
-  const spinAngle = Math.random() * 360 + 720; // 2 full rotations + random
-  const duration = 3000;
+
+  const spinAngle = Math.random() * 360 + 720; // random + 2 full turns
+  const duration = 3500;
   const start = performance.now();
 
   function animate(currentTime) {
@@ -86,8 +95,8 @@ function spinWheel() {
     if (elapsed < duration) {
       const easeOut = 1 - Math.pow(1 - elapsed / duration, 3);
       rotation = (spinAngle * easeOut) * Math.PI / 180;
-      ctx.clearRect(0, 0, 400, 400);
       ctx.save();
+      ctx.clearRect(0, 0, 400, 400);
       ctx.translate(200, 200);
       ctx.rotate(rotation);
       ctx.translate(-200, -200);
@@ -96,19 +105,28 @@ function spinWheel() {
       requestAnimationFrame(animate);
     } else {
       isSpinning = false;
-      showRandomQuestion();
+      showCategoryQuestion(rotation);
     }
   }
 
   requestAnimationFrame(animate);
 }
 
-function showRandomQuestion() {
-  const randomIndex = Math.floor(Math.random() * questions.length);
-  questionText.textContent = questions[randomIndex];
+// ---- DETERMINE CATEGORY + QUESTION ----
+function showCategoryQuestion(angle) {
+  // Normalize angle to 0–2π
+  const normalizedAngle = (2 * Math.PI - (angle % (2 * Math.PI))) % (2 * Math.PI);
+  const index = Math.floor(normalizedAngle / arcSize) % numSegments;
+  const category = segments[index];
+
+  const questionList = categories[category];
+  const randomQuestion = questionList[Math.floor(Math.random() * questionList.length)];
+
+  questionText.textContent = `[${category}] ${randomQuestion}`;
   questionModal.style.display = "flex";
 }
 
+// ---- EVENT LISTENERS ----
 spinBtn.addEventListener("click", spinWheel);
 closeModal.addEventListener("click", () => {
   questionModal.style.display = "none";
