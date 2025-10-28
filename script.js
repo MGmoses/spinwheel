@@ -57,30 +57,60 @@ const arcSize = (2 * Math.PI) / numSegments;
 let rotation = 0;
 let isSpinning = false;
 
-// ---- DRAW WHEEL ----
+// ---- CANVAS RESIZE & DRAW WHEEL ----
+function resizeCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  // Use the CSS size (clientWidth) as the logical drawing area
+  const logicalWidth = canvas.clientWidth || 400;
+  const logicalHeight = canvas.clientHeight || logicalWidth;
+
+  canvas.width = Math.round(logicalWidth * dpr);
+  canvas.height = Math.round(logicalHeight * dpr);
+
+  // Reset any transforms and scale to device pixel ratio so 1 unit = 1 CSS pixel
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  drawWheel();
+}
+
 function drawWheel() {
   const colors = ["#FF7F50", "#FFD166", "#06D6A0", "#118AB2"];
-  ctx.clearRect(0, 0, 400, 400);
+  const w = canvas.clientWidth || 400;
+  const h = canvas.clientHeight || w;
+  const size = Math.min(w, h);
+  const center = size / 2;
+  const radius = size / 2;
+
+  ctx.clearRect(0, 0, w, h);
 
   for (let i = 0; i < numSegments; i++) {
     const angle = i * arcSize;
     ctx.beginPath();
-    ctx.moveTo(200, 200);
-    ctx.arc(200, 200, 200, angle, angle + arcSize);
+    ctx.moveTo(center, center);
+    ctx.arc(center, center, radius, angle, angle + arcSize);
     ctx.fillStyle = colors[i % colors.length];
     ctx.fill();
+
     ctx.save();
-    ctx.translate(200, 200);
+    ctx.translate(center, center);
     ctx.rotate(angle + arcSize / 2);
     ctx.textAlign = "right";
     ctx.fillStyle = "#fff";
-    ctx.font = "bold 20px Poppins";
-    ctx.fillText(segments[i], 170, 10);
+    // Scale font based on size for better responsiveness
+    const fontSize = Math.max(12, Math.floor(size / 20));
+    ctx.font = `bold ${fontSize}px Poppins`;
+    ctx.fillText(segments[i], radius * 0.85, 10);
     ctx.restore();
   }
 }
 
-drawWheel();
+// Initial resize/draw and on device changes
+resizeCanvas();
+window.addEventListener('resize', () => {
+  // Give layout a moment to settle on mobile orientation change
+  setTimeout(resizeCanvas, 50);
+});
+window.addEventListener('orientationchange', () => setTimeout(resizeCanvas, 100));
 
 // ---- SPIN ANIMATION ----
 function spinWheel() {
@@ -97,11 +127,16 @@ function spinWheel() {
     if (elapsed < duration) {
       const easeOut = 1 - Math.pow(1 - elapsed / duration, 3);
       rotation = startRotation + (spinAngle * easeOut) * Math.PI / 180;
+      const w = canvas.clientWidth || 400;
+      const h = canvas.clientHeight || w;
+      const size = Math.min(w, h);
+      const center = size / 2;
+
       ctx.save();
-      ctx.clearRect(0, 0, 400, 400);
-      ctx.translate(200, 200);
+      ctx.clearRect(0, 0, w, h);
+      ctx.translate(center, center);
       ctx.rotate(rotation);
-      ctx.translate(-200, -200);
+      ctx.translate(-center, -center);
       drawWheel();
       ctx.restore();
       requestAnimationFrame(animate);

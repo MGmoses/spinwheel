@@ -23,6 +23,15 @@ h1 {
   display: inline-block;
 }
 
+/* Make the canvas responsive while preserving a square aspect ratio visually */
+#wheel {
+  width: 400px;
+  height: 400px;
+  max-width: 90vw;
+  max-height: 90vw;
+  display: block;
+}
+
 .pointer {
   position: absolute;
   top: -25px;
@@ -84,4 +93,76 @@ h1 {
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
+}
+
+/* Responsive tweaks for mobile (iPhone) */
+@media (max-width: 480px) {
+  body {
+    padding: 20px 12px;
+    align-items: flex-start;
+  }
+
+  .container {
+    padding-top: 18px;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+  }
+
+  #wheel {
+    width: 320px;
+    height: 320px;
+    max-width: 86vw;
+    max-height: 86vw;
+  }
+
+  .pointer {
+    top: -18px;
+    font-size: 24px;
+  }
+
+  #spinBtn {
+    padding: 14px 28px;
+    font-size: 1.05rem;
+    border-radius: 12px;
+  }
+
+  .modal-content {
+    padding: 18px;
+    max-width: 92vw;
+  }
+
+  #closeModal {
+    padding: 12px 22px;
+    border-radius: 10px;
+  }
+}
+
+/* Responsive tweaks for tablet (iPad) */
+@media (min-width: 481px) and (max-width: 1024px) {
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  #wheel {
+    width: 380px;
+    height: 380px;
+    max-width: 70vw;
+    max-height: 70vw;
+  }
+
+  .pointer {
+    font-size: 28px;
+    top: -22px;
+  }
+
+  #spinBtn {
+    padding: 14px 30px;
+    font-size: 1.15rem;
+  }
 }
