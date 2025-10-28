@@ -128,7 +128,7 @@ function showCategoryQuestion() {
   questionText.textContent = `[${category}] ${randomQuestion}`;
   questionModal.style.display = "flex";
 }
-}
+
 
 // ---- EVENT LISTENERS ----
 spinBtn.addEventListener("click", spinWheel);
