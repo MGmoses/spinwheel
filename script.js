@@ -86,15 +86,16 @@ function spinWheel() {
   if (isSpinning) return;
   isSpinning = true;
 
-  const spinAngle = Math.random() * 360 + 720; // random + 2 full turns
+  const spinAngle = Math.random() * 360 + 720; // random + 2 full rotations
   const duration = 3500;
   const start = performance.now();
+  const startRotation = rotation;
 
   function animate(currentTime) {
     const elapsed = currentTime - start;
     if (elapsed < duration) {
       const easeOut = 1 - Math.pow(1 - elapsed / duration, 3);
-      rotation = (spinAngle * easeOut) * Math.PI / 180;
+      rotation = startRotation + (spinAngle * easeOut) * Math.PI / 180;
       ctx.save();
       ctx.clearRect(0, 0, 400, 400);
       ctx.translate(200, 200);
@@ -105,7 +106,8 @@ function spinWheel() {
       requestAnimationFrame(animate);
     } else {
       isSpinning = false;
-      showCategoryQuestion(rotation);
+      rotation = rotation % (2 * Math.PI); // normalize rotation
+      showCategoryQuestion();
     }
   }
 
@@ -113,21 +115,7 @@ function spinWheel() {
 }
 
 // ---- DETERMINE CATEGORY + QUESTION ----
-function showCategoryQuestion(angle) {
-  // Normalize angle to 0–2π
-  const normalizedAngle = (2 * Math.PI - (angle % (2 * Math.PI))) % (2 * Math.PI);
-  const index = Math.floor(normalizedAngle / arcSize) % numSegments;
-  const category = segments[index];
-
-  const questionList = categories[category];
-  const randomQuestion = questionList[Math.floor(Math.random() * questionList.length)];
-
-  questionText.textContent = `[${category}] ${randomQuestion}`;
-  questionModal.style.display = "flex";
-}
-
-// ---- EVENT LISTENERS ----
-spinBtn.addEventListener("click", spinWheel);
-closeModal.addEventListener("click", () => {
-  questionModal.style.display = "none";
-});
+function showCategoryQuestion() {
+  // The pointer is at top center (0 radians)
+  // Wheel rotation moves segments clockwise, so we invert it
+  const point
