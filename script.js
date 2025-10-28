@@ -74,7 +74,7 @@ function resizeCanvas() {
 }
 
 function drawWheel() {
-  const colors = ["#4900B8", "#084BFE", "#06D6A0", "#F93838"];
+  const colors = ["#4900B8", "#084BFE", "#F93838 ", "#06D6A0 "];
   const w = canvas.clientWidth || 400;
   const h = canvas.clientHeight || w;
   const size = Math.min(w, h);
