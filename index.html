@@ -3,20 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VARA Expo - Test your digital knowledge!</title>
+  <title>VARA Expo - Test your Digital Knowledge!</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Test your digital knowledge!</h1>
+    <h1>Test Your Digital Knowledge!</h1>
+    <p>Spin the wheel and answer a question from the selected category!</p>
+
     <div class="wheel-container">
       <canvas id="wheel" width="400" height="400"></canvas>
-      <div class="pointer">▼</div>
+      <div class="pointer" aria-label="Wheel Pointer">▼</div>
     </div>
-    <button id="spinBtn">Spin</button>
+
+    <button id="spinBtn" aria-label="Spin the wheel">Spin</button>
   </div>
 
-  <div id="questionModal" class="modal">
+  <div id="questionModal" class="modal" role="dialog" aria-modal="true">
     <div class="modal-content">
       <h2>Your Question</h2>
       <p id="questionText"></p>
