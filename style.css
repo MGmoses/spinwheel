@@ -112,6 +112,27 @@ h1 {
   cursor: pointer;
 }
 
+/* Choice buttons inside modal */
+.choice-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+.choice-btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 120ms ease, background 120ms ease;
+}
+.choice-btn:hover { transform: translateY(-2px); }
+.choice-btn.wrong { background: #ffd6d6; border-color: #ff8a8a; }
+.congrats { color: #c77c00; font-weight: 800; }
+
 /* Responsive tweaks for mobile (iPhone) */
 @media (max-width: 480px) {
   body {

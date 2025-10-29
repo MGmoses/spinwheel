@@ -225,23 +225,66 @@ function showCategoryQuestion() {
   const randomQuestion = questionList.length
     ? questionList[Math.floor(Math.random() * questionList.length)]
     : "No questions available for this category.";
-
   questionText.textContent = `${randomQuestion}`;
 
-  // Hide modal title and style specially when WINNER is selected
+  // Reference modal title and choices container
   const modalTitle = document.querySelector('.modal-content h2');
-  if (category === 'WINNER') {
-    if (modalTitle) modalTitle.style.display = 'none';
-    questionText.style.color = '#ffd700';
-    questionText.style.fontSize = '1.5em';
-    questionText.style.fontWeight = 'bold';
-    // play confetti when someone wins
-    try { createConfetti(60); } catch (e) { /* ignore if confetti unavailable */ }
+  const choicesContainer = document.getElementById('choices');
+
+  // Special handling for the MINDCo first question: show multiple choice answers
+  if (category === 'MINDCo' && randomQuestion === 'What does MINDCo stand for?') {
+    // Ensure title is visible
+    if (modalTitle) { modalTitle.style.display = ''; modalTitle.textContent = 'Your Question'; }
+    // Populate choices
+    const options = [
+      'Maldives Integration and Diversification Corporation',
+      'Maldivian Investment and Diversification Company',
+      'Maldives Innovation and Digital Company',
+      'Maldives International and Domestic Company'
+    ];
+    if (choicesContainer) {
+      choicesContainer.innerHTML = '';
+      options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.type = 'button';
+        btn.textContent = opt;
+        btn.addEventListener('click', () => {
+          // Correct answer: trigger congratulations module + confetti
+          if (opt === 'Maldives Innovation and Digital Company') {
+            if (modalTitle) modalTitle.textContent = 'Congratulations!';
+            questionText.textContent = 'CONGRATULATIONS! You selected the correct answer!';
+            questionText.classList.add('congrats');
+            // clear choices
+            choicesContainer.innerHTML = '';
+            try { createConfetti(80); } catch (e) { }
+          } else {
+            // Wrong answer - brief visual feedback
+            btn.classList.add('wrong');
+            setTimeout(() => btn.classList.remove('wrong'), 700);
+          }
+        });
+        choicesContainer.appendChild(btn);
+      });
+    }
   } else {
-    if (modalTitle) modalTitle.style.display = '';
-    questionText.style.color = '';
-    questionText.style.fontSize = '';
-    questionText.style.fontWeight = '';
+    // Clear any choices for other questions/categories
+    if (choicesContainer) choicesContainer.innerHTML = '';
+
+    // Hide modal title and style specially when WINNER is selected
+    if (category === 'WINNER') {
+      if (modalTitle) modalTitle.style.display = 'none';
+      questionText.style.color = '#ffd700';
+      questionText.style.fontSize = '1.5em';
+      questionText.style.fontWeight = 'bold';
+      // play confetti when someone wins
+      try { createConfetti(60); } catch (e) { /* ignore if confetti unavailable */ }
+    } else {
+      if (modalTitle) modalTitle.style.display = '';
+      questionText.style.color = '';
+      questionText.style.fontSize = '';
+      questionText.style.fontWeight = '';
+    }
   }
 
   questionModal.style.display = "flex";
@@ -250,5 +293,14 @@ function showCategoryQuestion() {
 // ---- EVENT LISTENERS ----
 spinBtn.addEventListener("click", spinWheel);
 closeModal.addEventListener("click", () => {
+  // reset modal content when closed
   questionModal.style.display = "none";
+  const modalTitle = document.querySelector('.modal-content h2');
+  const choicesContainer = document.getElementById('choices');
+  if (modalTitle) { modalTitle.textContent = 'Your Question'; modalTitle.style.display = ''; }
+  if (choicesContainer) choicesContainer.innerHTML = '';
+  questionText.classList.remove('congrats');
+  questionText.style.color = '';
+  questionText.style.fontSize = '';
+  questionText.style.fontWeight = '';
 });
