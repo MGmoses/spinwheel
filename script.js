@@ -107,6 +107,29 @@ function drawWheel() {
     ctx.fillText(segments[i], radius * 0.85, 10);
     ctx.restore();
   }
+
+  // Draw separators between segments and an outer ring for polish
+  ctx.save();
+  ctx.translate(center, center);
+  // separator line width scales with canvas size
+  const sepWidth = Math.max(1, Math.floor(size / 200));
+  ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+  ctx.lineWidth = sepWidth;
+  for (let i = 0; i < numSegments; i++) {
+    const angle = i * arcSize;
+    const x = Math.cos(angle) * radius;
+    const y = Math.sin(angle) * radius;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  }
+  // outer ring
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, 0, Math.PI * 2);
+  ctx.lineWidth = Math.max(2, sepWidth + 1);
+  ctx.stroke();
+  ctx.restore();
 }
 
 // Simple confetti implementation: create several colored pieces that fall and are removed
