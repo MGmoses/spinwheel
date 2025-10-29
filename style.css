@@ -52,7 +52,7 @@ h1 {
   left: 50%;
   transform: translateX(-50%);
   font-size: 30px;
-  color: #fff;
+  color: #ffffff;
 }
 
 #spinBtn {
@@ -105,7 +105,7 @@ h1 {
 #closeModal {
   margin-top: 20px;
   background-color: #007aff;
-  color: white;
+  color: black;
   border: none;
   padding: 10px 20px;
   border-radius: 8px;
