@@ -7,6 +7,9 @@ const closeModal = document.getElementById("closeModal");
 
 // ---- CATEGORY QUESTION BANK ----
 const categories = {
+  WINNER: [
+    "CONGRATULATIONS! You have won a free gift!"
+  ],
   MINDCo: [
     "What does MINDCo stand for?",
     "When was MINDCo officially rebranded from Tradenet?",
@@ -74,7 +77,8 @@ function resizeCanvas() {
 }
 
 function drawWheel() {
-  const colors = ["#7fb9aa", "#6e8ac9", "#c67f7f", "#8c7aad"];
+  // Make WINNER visually distinct by using gold as the first color
+  const colors = ["#ffd700", "#7fb9aa", "#6e8ac9", "#c67f7f", "#8c7aad"];
   const w = canvas.clientWidth || 400;
   const h = canvas.clientHeight || w;
   const size = Math.min(w, h);
@@ -95,12 +99,37 @@ function drawWheel() {
     ctx.translate(center, center);
     ctx.rotate(angle + arcSize / 2);
     ctx.textAlign = "right";
-    ctx.fillStyle = "#fff";
+    // Use dark text on the WINNER segment for better contrast
+    ctx.fillStyle = (segments[i] === 'WINNER') ? '#000' : '#fff';
     // Scale font based on size for better responsiveness
     const fontSize = Math.max(12, Math.floor(size / 20));
     ctx.font = `bold ${fontSize}px Poppins`;
     ctx.fillText(segments[i], radius * 0.85, 10);
     ctx.restore();
+  }
+}
+
+// Simple confetti implementation: create several colored pieces that fall and are removed
+function createConfetti(count = 40) {
+  const container = document.getElementById('confetti');
+  if (!container) return;
+
+  const colors = ['#ffd700', '#ff4d4f', '#4caf50', '#4da6ff', '#ffb84d', '#b86bff'];
+  const pieces = [];
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    const left = Math.random() * 100;
+    el.style.left = `${left}%`;
+    el.style.top = `${-5 - Math.random() * 10}vh`;
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    const duration = 2000 + Math.random() * 1800; // ms
+    el.style.animation = `confetti-fall ${duration}ms linear forwards`;
+    // Slight horizontal drift using transform translateX via inline keyframes not easily settable; we'll vary left as percent
+    container.appendChild(el);
+    pieces.push(el);
+    // Remove after animation
+    setTimeout(() => { try { el.remove(); } catch (e) {} }, duration + 500);
   }
 }
 
@@ -175,6 +204,23 @@ function showCategoryQuestion() {
     : "No questions available for this category.";
 
   questionText.textContent = `${randomQuestion}`;
+
+  // Hide modal title and style specially when WINNER is selected
+  const modalTitle = document.querySelector('.modal-content h2');
+  if (category === 'WINNER') {
+    if (modalTitle) modalTitle.style.display = 'none';
+    questionText.style.color = '#ffd700';
+    questionText.style.fontSize = '1.5em';
+    questionText.style.fontWeight = 'bold';
+    // play confetti when someone wins
+    try { createConfetti(60); } catch (e) { /* ignore if confetti unavailable */ }
+  } else {
+    if (modalTitle) modalTitle.style.display = '';
+    questionText.style.color = '';
+    questionText.style.fontSize = '';
+    questionText.style.fontWeight = '';
+  }
+
   questionModal.style.display = "flex";
 }
 
