@@ -89,7 +89,7 @@ h1 {
 }
 
 .modal-content {
-  background-color: #fff;
+  background-color: #000000;
   color: #333;
   border-radius: 12px;
   padding: 25px;
@@ -142,7 +142,7 @@ h1 {
     padding: 14px 28px;
     font-size: 1.05rem;
     border-radius: 12px;
-    color:#000000
+
   }
 
   .modal-content {
