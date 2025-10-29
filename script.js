@@ -13,9 +13,9 @@ const categories = {
   MINDCo: [
     "What does MINDCo stand for?",
     "When was MINDCo officially rebranded from Tradenet?",
-    "What is MINDCo’s main mission?",
+    "What is the role of MINDCo?",
     "What is the national vision MINDCo is working toward by 2027?",
-    "Name one of MINDCo’s flagship digital platforms.",
+    "Name one of MINDCo's flagship digital platforms.",
     "How many scholarships is MINDCo, Future Institute offering at VARA Expo?",
     "What does MINDCo aim to achieve through digitalisation?"
   ],
@@ -231,17 +231,63 @@ function showCategoryQuestion() {
   const modalTitle = document.querySelector('.modal-content h2');
   const choicesContainer = document.getElementById('choices');
 
-  // Special handling for the MINDCo first question: show multiple choice answers
-  if (category === 'MINDCo' && randomQuestion === 'What does MINDCo stand for?') {
+  // Special handling for MINDCo multiple choice questions
+  if (category === 'MINDCo' && (
+    randomQuestion === 'What does MINDCo stand for?' ||
+    randomQuestion === 'When was MINDCo officially rebranded from Tradenet?' ||
+    randomQuestion === 'What is the role of MINDCo?' ||
+    randomQuestion === "Name one of MINDCo's flagship digital platforms." ||
+    randomQuestion === "How many scholarships is MINDCo, Future Institute offering at VARA Expo?"
+  )) {
     // Ensure title is visible
     if (modalTitle) { modalTitle.style.display = ''; modalTitle.textContent = 'Your Question'; }
-    // Populate choices
-    const options = [
-      'Maldives Integration and Diversification Corporation',
-      'Maldivian Investment and Diversification Company',
-      'Maldives Innovation and Digital Company',
-      'Maldives International and Domestic Company'
-    ];
+
+    // Define options based on the question
+    let options = [];
+    let correctAnswer = '';
+
+    if (randomQuestion === 'What does MINDCo stand for?') {
+      options = [
+        'Maldives Integration and Diversification Corporation',
+        'Maldivian Investment and Diversification Company',
+        'Maldives Innovation and Digital Company',
+        'Maldives International and Domestic Company'
+      ];
+      correctAnswer = 'Maldives Innovation and Digital Company';
+    } else if (randomQuestion === 'What is the role of MINDCo?') {
+      options = [
+        'Expanding minds through media',
+        'The innovation arm of the government',
+        'Researching mind control technology',
+        'An AI development company'
+      ];
+      correctAnswer = 'The innovation arm of the government';
+    } else if (randomQuestion === "Name one of MINDCo's flagship digital platforms.") {
+      options = [
+        'Steam',
+        'Tradenet',
+        'iBay',
+        'oneGov'
+      ];
+      correctAnswer = 'oneGov';
+    } else if (randomQuestion === "How many scholarships is MINDCo, Future Institute offering at VARA Expo?") {
+      options = [
+        '50',
+        '25',
+        '10',
+        '5'
+      ];
+      correctAnswer = '25';
+    } else {
+      options = [
+        'November 03, 2023',
+        'July 10, 2022',
+        'February 14, 2022',
+        'October 15, 2025'
+      ];
+      correctAnswer = 'October 15, 2025';
+    }
+
     if (choicesContainer) {
       choicesContainer.innerHTML = '';
       options.forEach(opt => {
@@ -251,7 +297,7 @@ function showCategoryQuestion() {
         btn.textContent = opt;
         btn.addEventListener('click', () => {
           // Correct answer: trigger congratulations module + confetti
-          if (opt === 'Maldives Innovation and Digital Company') {
+          if (opt === correctAnswer) {
             if (modalTitle) modalTitle.textContent = 'Congratulations!';
             questionText.textContent = 'CONGRATULATIONS! You selected the correct answer!';
             questionText.classList.add('congrats');
